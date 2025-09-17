@@ -28,6 +28,29 @@
             return a/b;
         }
 
+        function operate(op, a, b){
+            let res =0;
+            if (op == '+'){
+                res = add(a,b);
+            }else if (op == '-'){
+                res = subtract(a,b);
+            }else if (op == '*'){
+                res = multiply(a,b);
+            }else if (op == '/'){
+                res = divide(a,b);
+            }
+            return res;
+        }
+
+        num1 = prompt('Enter number 1:');
+        num1 = parseInt(num1);
+        num2 = prompt('Enter number 2:');
+        num2 = parseInt(num2);
+        oper = prompt('Enter symbol :');
+
+        console.log(operate(oper,num1,num2));
+
+
     </script>
 </body>
 </html>
