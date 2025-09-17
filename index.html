@@ -92,9 +92,9 @@
         num2 = parseInt(num2);
         oper = prompt('Enter symbol :');
 
-        console.log(operate(oper,num1,num2));
-
-
+        let scr = document.getElementById("screen");
+        // console.log(operate(oper,num1,num2));
+        scr.textContent = operate(oper, num1, num2);
     </script>
 </body>
 </html>
