@@ -38,6 +38,7 @@
         <div class="button">=</div>
         <div class="button">/</div>
     </div>
+    <div class="row">Clear</div>
 
 </div>
 
@@ -50,11 +51,12 @@
 
 
 
-
     <script>
-        let num1 = 0;
-        let num2 = 0;
-        let oper = '+';
+        let num1 = undefined;
+        let num2 = undefined;
+        let oper = undefined;
+
+        const buttons = document.querySelectorAll(".button");
 
         function add(a,b){
             return a+b;
@@ -86,15 +88,47 @@
             return res;
         }
 
-        num1 = prompt('Enter number 1:');
-        num1 = parseInt(num1);
-        num2 = prompt('Enter number 2:');
-        num2 = parseInt(num2);
-        oper = prompt('Enter symbol :');
+        // num1 = prompt('Enter number 1:');
+        // num1 = parseInt(num1);
+        // num2 = prompt('Enter number 2:');
+        // num2 = parseInt(num2);
+        // oper = prompt('Enter symbol :');
 
         let scr = document.getElementById("screen");
         // console.log(operate(oper,num1,num2));
         scr.textContent = operate(oper, num1, num2);
+
+        buttons.forEach((btn) => {
+            btn.addEventListener("click", () => {
+                if (btn.textContent != '='){
+                    if (num1 == undefined){
+                        num1 = parseInt(btn.textContent);
+                        scr.textContent = num1;
+                        console.log(num1);
+                    }else if (oper == undefined){
+                        oper = btn.textContent;
+                        console.log("Operation :" + oper);
+                    }else if (num2 == undefined){
+                        num2 = parseInt(btn.textContent);
+                        scr.textContent = num2;
+                        console.log(num2);
+                    }else{
+                        res = operate(oper,num1,num2);
+                        scr.textContent = res;
+                        num1 = res ;
+                        num2 = undefined;
+                        oper = btn.textContent;
+                    }
+                    
+                }else{
+                   res = operate(oper,num1,num2);
+                    scr.textContent = res;
+                    num1 = res ;
+                    num2 = undefined;
+                    oper = undefined;
+            }
+        })});
+        
     </script>
 </body>
 </html>
