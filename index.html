@@ -100,18 +100,28 @@
 
         buttons.forEach((btn) => {
             btn.addEventListener("click", () => {
-                if (btn.textContent != '='){
+                if (! isNaN(btn.textContent)){
                     if (num1 == undefined){
                         num1 = parseInt(btn.textContent);
                         scr.textContent = num1;
-                        console.log(num1);
-                    }else if (oper == undefined){
-                        oper = btn.textContent;
-                        console.log("Operation :" + oper);
+                        console.log(isNaN(btn.textContent));
                     }else if (num2 == undefined){
                         num2 = parseInt(btn.textContent);
                         scr.textContent = num2;
                         console.log(num2);
+                    }
+                }
+                else{
+                    if (oper == undefined){
+                        oper = btn.textContent;
+                        console.log("Operation :" + oper);
+                
+                    }else if(btn.textContent == '='){
+                        res = operate(oper,num1,num2);
+                        scr.textContent = res;
+                        num1 = res ;
+                        num2 = undefined;
+                        oper = undefined;
                     }else{
                         res = operate(oper,num1,num2);
                         scr.textContent = res;
@@ -119,13 +129,6 @@
                         num2 = undefined;
                         oper = btn.textContent;
                     }
-                    
-                }else{
-                   res = operate(oper,num1,num2);
-                    scr.textContent = res;
-                    num1 = res ;
-                    num2 = undefined;
-                    oper = undefined;
             }
         })});
         
