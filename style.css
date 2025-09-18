@@ -22,3 +22,8 @@ body {
     font-size: larger;
     padding-top: auto;
 }
+
+#clear {
+    width: 100%;
+    border: 1px solid black;
+}

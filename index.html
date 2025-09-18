@@ -38,7 +38,9 @@
         <div class="button">=</div>
         <div class="button">/</div>
     </div>
-    <div class="row">Clear</div>
+    <div class="row">
+        <div class="button" id="clear">Clear</div>
+    </div>
 
 </div>
 
@@ -112,7 +114,12 @@
                     }
                 }
                 else{
-                    if (oper == undefined){
+                    if(btn.textContent == 'Clear'){
+                        num1 = undefined;
+                        num2 = undefined;
+                        oper = undefined;
+                        scr.textContent = 0;
+                    }else if (oper == undefined){
                         oper = btn.textContent;
                         console.log("Operation :" + oper);
                 
