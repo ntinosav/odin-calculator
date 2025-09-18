@@ -55,7 +55,9 @@
 
     <script>
         let num1 = undefined;
+        let temp1 = '';
         let num2 = undefined;
+        let temp2 = '';
         let oper = undefined;
 
         const buttons = document.querySelectorAll(".button");
@@ -104,19 +106,28 @@
             btn.addEventListener("click", () => {
                 if (! isNaN(btn.textContent)){
                     if (num1 == undefined){
-                        num1 = parseInt(btn.textContent);
-                        scr.textContent = num1;
-                        console.log(isNaN(btn.textContent));
+                        temp1 += btn.textContent;
+                        scr.textContent = temp1;
+                        console.log(temp1);
                     }else if (num2 == undefined){
-                        num2 = parseInt(btn.textContent);
-                        scr.textContent = num2;
-                        console.log(num2);
+                        temp2 += btn.textContent;
+                        scr.textContent = temp2;
+                        console.log(temp2);
                     }
                 }
                 else{
+                    if (temp1 != ''){
+                        num1 = parseInt(temp1);
+                        temp1= '';
+                    }else if (temp2 != ''){
+                        num2 = parseInt(temp2);
+                        temp2 = '';
+                    }
                     if(btn.textContent == 'Clear'){
                         num1 = undefined;
+                        temp1 = '';
                         num2 = undefined;
+                        temp2 = '';
                         oper = undefined;
                         scr.textContent = 0;
                     }else if (oper == undefined){
@@ -128,12 +139,14 @@
                         scr.textContent = res;
                         num1 = res ;
                         num2 = undefined;
+                        temp2 = '';
                         oper = undefined;
                     }else{
                         res = operate(oper,num1,num2);
                         scr.textContent = res;
                         num1 = res ;
                         num2 = undefined;
+                        temp2 = '';
                         oper = btn.textContent;
                     }
             }
