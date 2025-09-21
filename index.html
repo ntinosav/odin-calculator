@@ -41,6 +41,9 @@
     <div class="row">
         <div class="button" id="clear">Clear</div>
     </div>
+    <div class="row">
+        <div class="button" id="bspace">Backspace</div>
+    </div>
 
 </div>
 
@@ -103,22 +106,19 @@
             return res;
         }
 
-        // num1 = prompt('Enter number 1:');
-        // num1 = parseInt(num1);
-        // num2 = prompt('Enter number 2:');
-        // num2 = parseInt(num2);
-        // oper = prompt('Enter symbol :');
+
 
         let scr = document.getElementById("screen");
-        // console.log(operate(oper,num1,num2));
+   
         scr.textContent = operate(oper, num1, num2);
 
         buttons.forEach((btn) => {
             btn.addEventListener("click", () => {
-                if (! isNaN(btn.textContent) || btn.textContent == '.'){
+                if ((! isNaN(btn.textContent) || btn.textContent == '.' || btn.textContent == 'Backspace') && needsClear==false){
                     prev_oper = false;
                     prev_equal = false;
-                    if (num1 == undefined){
+                    if (btn.textContent != 'Backspace'){
+                        if (num1 == undefined){
                         if (!temp1.includes('.') || btn.textContent!= '.'){
                             temp1 += btn.textContent;
                             scr.textContent = temp1;
@@ -132,40 +132,67 @@
                             console.log(temp2);
                         }
                     }
-                }
-                else{
-                    // btn.style.backgroundColor = 'red';
-                    if (temp1 != ''){
-                        num1 = parseFloat(temp1);
-                        if (parseInt(temp1) == num1) {
-                            num1 = parseInt(temp1);
+                }else{
+                     if (temp2 != ''){
+                         // temp2 = String(num2);
+                         if (temp2.length > 1) {
+                             temp2 = temp2.slice(0,-1);
+                         }
+                         scr.textContent = temp2;
+                        }else if (temp1 != ''){
+                            if (num1 != undefined){
+                                 temp1 = String(num1);
+                            }
+                           
+                            if (temp1.length > 1) {
+                                temp1 = temp1.slice(0,-1);
+                                console.log(temp1);
+                            }
+                            scr.textContent = temp1;
                         }
-                        temp1= '';
-                    }else if (temp2 != ''){
-                        num2 = parseFloat(temp2);
-                        if (parseInt(temp2) == num2) {
-                            num2 = parseInt(temp2);
-                        }
-                        temp2 = '';
-                    }
-                    if ((prev_oper  && num2 == undefined && btn.textContent != 'Clear')){
-                        scr.textContent = 'Error. Press Clear';
-                        ops.forEach((item)=> {item.style.backgroundColor = 'red';} );
-                        clearButton.style.backgroundColor = '#00ff00';
-                        needsClear = true;
 
-                    }else{
+                }
+                   
+            }else{
+                        console.log("Hello");
+                  
+                            // btn.style.backgroundColor = 'red';
+                        if (temp1 != ''){
+                            num1 = parseFloat(temp1);
+                            if (parseInt(temp1) == num1) {
+                                num1 = parseInt(temp1);
+                            }
+                            temp1= '';
+                        }else if (temp2 != ''){
+                            num2 = parseFloat(temp2);
+                            if (parseInt(temp2) == num2) {
+                                num2 = parseInt(temp2);
+                            }
+                            temp2 = '';
+                        }
+
+
                         if(btn.textContent == 'Clear'){
                             num1 = undefined;
                             temp1 = '';
                             num2 = undefined;
                             temp2 = '';
                             oper = undefined;
+                            res = undefined;
                             scr.textContent = 0;
                             ops.forEach((item)=> {item.style.backgroundColor = 'bisque';} );
                             btn.style.backgroundColor = 'white';
                             needsClear = false;
-                        }else{
+                        }
+                    
+                    if ((needsClear/*prev_oper  && num2 == undefined */ && btn.textContent != 'Clear')){
+                        scr.textContent = 'Error. Press Clear';
+                        ops.forEach((item)=> {item.style.backgroundColor = 'red';} );
+                        clearButton.style.backgroundColor = '#00ff00';
+                        needsClear = true;
+
+                    }else{
+                    
                             if (!needsClear){
                                 if(btn.textContent == '='){
                                     if (!prev_equal && num2!=undefined){
@@ -176,10 +203,17 @@
                                         temp2 = '';
                                         oper = undefined;
                                         prev_equal = true;
+                                        if (res == 'Nice try'){
+                                            scr.textContent = 'Nice try';
+                                            ops.forEach((item)=> {item.style.backgroundColor = 'red';} );
+                                            clearButton.style.backgroundColor = '#00ff00';
+                                            needsClear = true;
+                                        }
                                     }
 
                                     ops.forEach((item)=> {item.style.backgroundColor = 'bisque';} );
                                     btn.style.backgroundColor = 'red';
+                                
                                 }else if (oper == undefined){
                                     prev_equal = false;
                                     oper = btn.textContent;
@@ -200,6 +234,12 @@
                                     prev_oper = true;
                                     ops.forEach((item)=> {item.style.backgroundColor = 'bisque';} );
                                     btn.style.backgroundColor = 'red';
+                                    if (res == 'Nice try'){
+                                            scr.textContent = 'Nice try';
+                                            ops.forEach((item)=> {item.style.backgroundColor = 'red';} );
+                                            clearButton.style.backgroundColor = '#00ff00';
+                                            needsClear = true;
+                                        }
                                 }
                             }
                         } 
@@ -208,7 +248,7 @@
                     
                     
             }
-        })});
+        )});
         
     </script>
 </body>
