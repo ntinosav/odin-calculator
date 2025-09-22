@@ -108,6 +108,47 @@
 
 
 
+        function roundLastDigit(num_str) {
+            let pos = num_str.indexOf('.');
+            let num = 0;
+            let pow = 0;
+            if (pos != -1) {
+                if (num_str.includes('e')){
+                    let exp = num_str.slice(-2,);
+                    console.log(exp);
+                    num_str = num_str.slice(0,7);
+                    console.log(`Huge Number : ${num_str}`);
+                    num = parseFloat(num_str);
+                    pow = ((13 - 1) - pos) - 1;
+                    num = (num*Math.pow(10,pow));
+                    num = num.toFixed(1);
+                    num = Math.round(num)/10**pow;
+                    num_str = String(num + 'e+'+exp)
+                }
+                num = parseFloat(num_str);
+                pow = ((13 - 1) - pos) - 1;
+                num = (num*Math.pow(10,pow));
+                num = num.toFixed(1);
+                num = Math.round(num)/10**pow;
+            }else{
+                num = parseInt(num_str);
+                console.log(`Before : ${num}`);
+                num = Math.floor(num/10**((num_str.length - 13)+1));
+                console.log(`After : ${num}`);
+                // let rem = num % 10;
+                num = Math.round(num);
+                num_str = String(num);
+                // num = Math.floor(num/10);
+                // if (rem >= 5){
+                //     num++;
+                // }
+            }
+            return String(num);
+        }
+
+        // keyboard event listener
+        
+
         let scr = document.getElementById("screen");
    
         scr.textContent = operate(oper, num1, num2);
@@ -121,15 +162,20 @@
                         if (num1 == undefined){
                         if (!temp1.includes('.') || btn.textContent!= '.'){
                             temp1 += btn.textContent;
+                            if (temp1.length == 13){
+                                console.log("OK");
+                                temp1 = roundLastDigit(temp1);
+                            }
                             scr.textContent = temp1;
-                            console.log(temp1);
                         }
                         
                     }else if (num2 == undefined){
                         if (!temp2.includes('.') || btn.textContent != '.'){
                             temp2 += btn.textContent;
+                            if (temp2.length == 13){
+                                temp2 = roundLastDigit(temp2);
+                            }
                             scr.textContent = temp2;
-                            console.log(temp2);
                         }
                     }
                 }else{
@@ -179,6 +225,8 @@
                             temp2 = '';
                             oper = undefined;
                             res = undefined;
+                            prev_equal = false;
+                            prev_oper = false;
                             scr.textContent = 0;
                             ops.forEach((item)=> {item.style.backgroundColor = 'bisque';} );
                             btn.style.backgroundColor = 'white';
@@ -197,6 +245,16 @@
                                 if(btn.textContent == '='){
                                     if (!prev_equal && num2!=undefined){
                                         res = operate(oper,num1,num2);
+                                        let res_str = String(res);
+                                        if (res_str.length >= 13){
+                                            console.log("Too BIG !!");
+                                            res_str = roundLastDigit(res_str);
+                                            if (res_str.includes('.')){
+                                                res = parseFloat(res_str);
+                                            }else{
+                                                res = parseInt(res_str);
+                                            }
+                                        }
                                         scr.textContent = res;
                                         num1 = res ;
                                         num2 = undefined;
@@ -216,8 +274,11 @@
                                 
                                 }else if (oper == undefined){
                                     prev_equal = false;
-                                    oper = btn.textContent;
-                                    prev_oper = true;
+                                    
+                                    if (btn.textContent != 'Clear'){
+                                        prev_oper = true;
+                                        oper = btn.textContent;
+                                    }
                                     console.log("Operation :" + oper);
                                     ops.forEach((item)=> {item.style.backgroundColor = 'bisque';} );
                                     btn.style.backgroundColor = 'red';
