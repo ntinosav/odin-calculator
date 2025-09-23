@@ -106,8 +106,6 @@
             return res;
         }
 
-
-
         function roundLastDigit(num_str) {
             let pos = num_str.indexOf('.');
             let num = 0;
@@ -146,6 +144,51 @@
             return String(num);
         }
 
+
+
+        function numInput(){
+            prev_oper = false;
+            prev_equal = false;
+            if (btn.textContent != 'Backspace'){
+                if (num1 == undefined){
+                    if (!temp1.includes('.') || btn.textContent!= '.'){
+                        temp1 += btn.textContent;
+                        if (temp1.length == 13){
+                            temp1 = roundLastDigit(temp1);
+                        }
+                        scr.textContent = temp1;
+                    }
+                }else if (num2 == undefined){
+                    if (!temp2.includes('.') || btn.textContent != '.'){
+                        temp2 += btn.textContent;
+                        if (temp2.length == 13){
+                            temp2 = roundLastDigit(temp2);
+                        }
+                        scr.textContent = temp2;
+                    }
+                }
+            }else{
+                if (temp2 != ''){
+                    // temp2 = String(num2);
+                    if (temp2.length > 1) {
+                        temp2 = temp2.slice(0,-1);
+                    }
+                    scr.textContent = temp2;
+                }else if (temp1 != ''){
+                    if (num1 != undefined){
+                        temp1 = String(num1);
+                    }
+                       
+                    if (temp1.length > 1) {
+                        temp1 = temp1.slice(0,-1);
+                        console.log(temp1);
+                    }
+                    scr.textContent = temp1;
+                }
+
+            }
+        }
+
         // keyboard event listener
         
 
@@ -156,6 +199,8 @@
         buttons.forEach((btn) => {
             btn.addEventListener("click", () => {
                 if ((! isNaN(btn.textContent) || btn.textContent == '.' || btn.textContent == 'Backspace') && needsClear==false){
+                    
+                    // function numInput begins                    
                     prev_oper = false;
                     prev_equal = false;
                     if (btn.textContent != 'Backspace'){
@@ -198,11 +243,10 @@
                         }
 
                 }
-                   
+            //   function numInput ends 
             }else{
-                        console.log("Hello");
-                  
-                            // btn.style.backgroundColor = 'red';
+                        
+                    
                         if (temp1 != ''){
                             num1 = parseFloat(temp1);
                             if (parseInt(temp1) == num1) {
@@ -217,7 +261,7 @@
                             temp2 = '';
                         }
 
-
+                        // function clear begins
                         if(btn.textContent == 'Clear'){
                             num1 = undefined;
                             temp1 = '';
@@ -232,6 +276,7 @@
                             btn.style.backgroundColor = 'white';
                             needsClear = false;
                         }
+                        // function clear ends
                     
                     if ((needsClear/*prev_oper  && num2 == undefined */ && btn.textContent != 'Clear')){
                         scr.textContent = 'Error. Press Clear';
@@ -242,6 +287,7 @@
                     }else{
                     
                             if (!needsClear){
+                                // function operInput begins
                                 if(btn.textContent == '='){
                                     if (!prev_equal && num2!=undefined){
                                         res = operate(oper,num1,num2);
@@ -302,6 +348,7 @@
                                             needsClear = true;
                                         }
                                 }
+                            // function operInput ends
                             }
                         } 
                     }
