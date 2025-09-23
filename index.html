@@ -146,7 +146,7 @@
 
 
 
-        function numInput(){
+        function numInput(btn){
             prev_oper = false;
             prev_equal = false;
             if (btn.textContent != 'Backspace'){
@@ -189,8 +189,247 @@
             }
         }
 
+
+
+
+        function numKeyInput(ev){
+            prev_oper = false;
+            prev_equal = false;
+            if (ev.key != "Backspace"){
+                if (num1 == undefined){
+                    if (!temp1.includes('.') || ev.key!= '.'){
+                        temp1 += ev.key;
+                        if (temp1.length == 13){
+                            temp1 = roundLastDigit(temp1);
+                        }
+                        scr.textContent = temp1;
+                    }
+                }else if (num2 == undefined){
+                    if (!temp2.includes('.') || ev.key != '.'){
+                        temp2 += ev.key;
+                        if (temp2.length == 13){
+                            temp2 = roundLastDigit(temp2);
+                        }
+                        scr.textContent = temp2;
+                    }
+                }
+            }else{
+                if (temp2 != ''){
+                    // temp2 = String(num2);
+                    if (temp2.length > 1) {
+                        temp2 = temp2.slice(0,-1);
+                    }
+                    scr.textContent = temp2;
+                }else if (temp1 != ''){
+                    if (num1 != undefined){
+                        temp1 = String(num1);
+                    }
+                       
+                    if (temp1.length > 1) {
+                        temp1 = temp1.slice(0,-1);
+                        console.log(temp1);
+                    }
+                    scr.textContent = temp1;
+                }
+
+            }
+        }
+
+        function operKeyInput(ev){
+            if(ev.key == 'Enter'){
+                if (!prev_equal && num2!=undefined){
+                    res = operate(oper,num1,num2);
+                    let res_str = String(res);
+                    if (res_str.length >= 13){
+                        res_str = roundLastDigit(res_str);
+                        if (res_str.includes('.')){
+                            res = parseFloat(res_str);
+                        }else{
+                            res = parseInt(res_str);
+                        }
+                    }
+                    scr.textContent = res;
+                    num1 = res ;
+                    num2 = undefined;
+                    temp2 = '';
+                    oper = undefined;
+                    prev_equal = true;
+                    if (res == 'Nice try'){
+                        scr.textContent = 'Nice try';
+                        ops.forEach((item)=> {item.style.backgroundColor = 'red';} );
+                        clearButton.style.backgroundColor = '#00ff00';
+                        needsClear = true;
+                    }
+                }else{
+                    needsClear = true;
+                }
+
+                ops.forEach((item)=> {item.style.backgroundColor = 'bisque';} );
+               // btn.style.backgroundColor = 'red';
+            
+            }else if (oper == undefined){
+                prev_equal = false;
+                
+                if (ev.key != 'c'){
+                    prev_oper = true;
+                    oper = ev.key;
+                }
+                console.log("Operation :" + oper);
+                ops.forEach((item)=> {item.style.backgroundColor = 'bisque';} );
+                //btn.style.backgroundColor = 'red';
+            } else if (prev_oper){
+                needsClear = true;
+                console.log("Fuck");
+            
+            }else{
+                prev_equal = false;
+                res = operate(oper,num1,num2);
+                scr.textContent = res;
+                num1 = res ;
+                num2 = undefined;
+                temp2 = '';
+                oper = ev.key;
+                prev_oper = true;
+                ops.forEach((item)=> {item.style.backgroundColor = 'bisque';} );
+                //btn.style.backgroundColor = 'red';
+                if (res == 'Nice try'){
+                        scr.textContent = 'Nice try';
+                        ops.forEach((item)=> {item.style.backgroundColor = 'red';} );
+                        clearButton.style.backgroundColor = '#00ff00';
+                        needsClear = true;
+                    }
+            }
+        }
+
+        function operInput(btn){
+            if(btn.textContent == '='){
+                if (!prev_equal && num2!=undefined){
+                    res = operate(oper,num1,num2);
+                    let res_str = String(res);
+                    if (res_str.length >= 13){
+                        res_str = roundLastDigit(res_str);
+                        if (res_str.includes('.')){
+                            res = parseFloat(res_str);
+                        }else{
+                            res = parseInt(res_str);
+                        }
+                    }
+                    scr.textContent = res;
+                    num1 = res ;
+                    num2 = undefined;
+                    temp2 = '';
+                    oper = undefined;
+                    prev_equal = true;
+                    if (res == 'Nice try'){
+                        scr.textContent = 'Nice try';
+                        ops.forEach((item)=> {item.style.backgroundColor = 'red';} );
+                        clearButton.style.backgroundColor = '#00ff00';
+                        needsClear = true;
+                    }
+                }else{
+                    needsClear = true;
+                }
+
+                ops.forEach((item)=> {item.style.backgroundColor = 'bisque';} );
+                btn.style.backgroundColor = 'red';
+            
+            }else if (oper == undefined){
+                prev_equal = false;
+                
+                if (btn.textContent != 'Clear'){
+                    prev_oper = true;
+                    oper = btn.textContent;
+                }
+                console.log("Operation :" + oper);
+                ops.forEach((item)=> {item.style.backgroundColor = 'bisque';} );
+                btn.style.backgroundColor = 'red';
+            } else if (prev_oper){
+                needsClear = true;
+            
+            }else{
+                // alert("Wrong !");
+                prev_equal = false;
+                res = operate(oper,num1,num2);
+                scr.textContent = res;
+                num1 = res ;
+                num2 = undefined;
+                temp2 = '';
+                oper = btn.textContent;
+                prev_oper = true;
+                ops.forEach((item)=> {item.style.backgroundColor = 'bisque';} );
+                btn.style.backgroundColor = 'red';
+                if (res == 'Nice try'){
+                        scr.textContent = 'Nice try';
+                        ops.forEach((item)=> {item.style.backgroundColor = 'red';} );
+                        clearButton.style.backgroundColor = '#00ff00';
+                        needsClear = true;
+                    }
+            }
+        }
+
+        function clearScreen(btn){
+            num1 = undefined;
+            temp1 = '';
+            num2 = undefined;
+            temp2 = '';
+            oper = undefined;
+            res = undefined;
+            prev_equal = false;
+            prev_oper = false;
+            scr.textContent = 0;
+            ops.forEach((item)=> {item.style.backgroundColor = 'bisque';} );
+            //btn.style.backgroundColor = 'white';
+            needsClear = false;
+        }
+
+
+        function registerNumber(){
+            if (temp1 != ''){
+                num1 = parseFloat(temp1);
+                if (parseInt(temp1) == num1) {
+                    num1 = parseInt(temp1);
+                }
+                temp1= '';
+            }else if (temp2 != ''){
+                num2 = parseFloat(temp2);
+                if (parseInt(temp2) == num2) {
+                    num2 = parseInt(temp2);
+                }
+                temp2 = '';
+            }
+        }
+
+
+        function errorState(){
+            scr.textContent = 'Error. Press Clear';
+            ops.forEach((item)=> {item.style.backgroundColor = 'red';} );
+            clearButton.style.backgroundColor = '#00ff00';
+            needsClear = true;
+        }
+
         // keyboard event listener
-        
+        document.addEventListener("keydown", (event) => {
+            console.log(event.key);
+            if ((! isNaN(event.key) || event.key == '.' || event.key == 'Backspace') && needsClear==false){
+                    numKeyInput(event);
+                }else{
+                    
+                    registerNumber();
+                    if(event.key == 'c'){
+                        clearScreen(event);
+                    }
+                    if (!needsClear){
+                        operKeyInput(event);
+                    }
+                } 
+                
+                if ((needsClear && event.key != 'c')){
+                    errorState();
+                }
+                       
+            });
+
+
 
         let scr = document.getElementById("screen");
    
@@ -199,162 +438,22 @@
         buttons.forEach((btn) => {
             btn.addEventListener("click", () => {
                 if ((! isNaN(btn.textContent) || btn.textContent == '.' || btn.textContent == 'Backspace') && needsClear==false){
-                    
-                    // function numInput begins                    
-                    prev_oper = false;
-                    prev_equal = false;
-                    if (btn.textContent != 'Backspace'){
-                        if (num1 == undefined){
-                        if (!temp1.includes('.') || btn.textContent!= '.'){
-                            temp1 += btn.textContent;
-                            if (temp1.length == 13){
-                                console.log("OK");
-                                temp1 = roundLastDigit(temp1);
-                            }
-                            scr.textContent = temp1;
-                        }
-                        
-                    }else if (num2 == undefined){
-                        if (!temp2.includes('.') || btn.textContent != '.'){
-                            temp2 += btn.textContent;
-                            if (temp2.length == 13){
-                                temp2 = roundLastDigit(temp2);
-                            }
-                            scr.textContent = temp2;
-                        }
-                    }
+                    numInput(btn);
                 }else{
-                     if (temp2 != ''){
-                         // temp2 = String(num2);
-                         if (temp2.length > 1) {
-                             temp2 = temp2.slice(0,-1);
-                         }
-                         scr.textContent = temp2;
-                        }else if (temp1 != ''){
-                            if (num1 != undefined){
-                                 temp1 = String(num1);
-                            }
-                           
-                            if (temp1.length > 1) {
-                                temp1 = temp1.slice(0,-1);
-                                console.log(temp1);
-                            }
-                            scr.textContent = temp1;
-                        }
-
-                }
-            //   function numInput ends 
-            }else{
-                        
                     
-                        if (temp1 != ''){
-                            num1 = parseFloat(temp1);
-                            if (parseInt(temp1) == num1) {
-                                num1 = parseInt(temp1);
-                            }
-                            temp1= '';
-                        }else if (temp2 != ''){
-                            num2 = parseFloat(temp2);
-                            if (parseInt(temp2) == num2) {
-                                num2 = parseInt(temp2);
-                            }
-                            temp2 = '';
-                        }
-
-                        // function clear begins
-                        if(btn.textContent == 'Clear'){
-                            num1 = undefined;
-                            temp1 = '';
-                            num2 = undefined;
-                            temp2 = '';
-                            oper = undefined;
-                            res = undefined;
-                            prev_equal = false;
-                            prev_oper = false;
-                            scr.textContent = 0;
-                            ops.forEach((item)=> {item.style.backgroundColor = 'bisque';} );
-                            btn.style.backgroundColor = 'white';
-                            needsClear = false;
-                        }
-                        // function clear ends
-                    
-                    if ((needsClear/*prev_oper  && num2 == undefined */ && btn.textContent != 'Clear')){
-                        scr.textContent = 'Error. Press Clear';
-                        ops.forEach((item)=> {item.style.backgroundColor = 'red';} );
-                        clearButton.style.backgroundColor = '#00ff00';
-                        needsClear = true;
-
-                    }else{
-                    
-                            if (!needsClear){
-                                // function operInput begins
-                                if(btn.textContent == '='){
-                                    if (!prev_equal && num2!=undefined){
-                                        res = operate(oper,num1,num2);
-                                        let res_str = String(res);
-                                        if (res_str.length >= 13){
-                                            console.log("Too BIG !!");
-                                            res_str = roundLastDigit(res_str);
-                                            if (res_str.includes('.')){
-                                                res = parseFloat(res_str);
-                                            }else{
-                                                res = parseInt(res_str);
-                                            }
-                                        }
-                                        scr.textContent = res;
-                                        num1 = res ;
-                                        num2 = undefined;
-                                        temp2 = '';
-                                        oper = undefined;
-                                        prev_equal = true;
-                                        if (res == 'Nice try'){
-                                            scr.textContent = 'Nice try';
-                                            ops.forEach((item)=> {item.style.backgroundColor = 'red';} );
-                                            clearButton.style.backgroundColor = '#00ff00';
-                                            needsClear = true;
-                                        }
-                                    }
-
-                                    ops.forEach((item)=> {item.style.backgroundColor = 'bisque';} );
-                                    btn.style.backgroundColor = 'red';
-                                
-                                }else if (oper == undefined){
-                                    prev_equal = false;
-                                    
-                                    if (btn.textContent != 'Clear'){
-                                        prev_oper = true;
-                                        oper = btn.textContent;
-                                    }
-                                    console.log("Operation :" + oper);
-                                    ops.forEach((item)=> {item.style.backgroundColor = 'bisque';} );
-                                    btn.style.backgroundColor = 'red';
-
-                                }else{
-                                    // alert("Wrong !");
-                                    prev_equal = false;
-                                    res = operate(oper,num1,num2);
-                                    scr.textContent = res;
-                                    num1 = res ;
-                                    num2 = undefined;
-                                    temp2 = '';
-                                    oper = btn.textContent;
-                                    prev_oper = true;
-                                    ops.forEach((item)=> {item.style.backgroundColor = 'bisque';} );
-                                    btn.style.backgroundColor = 'red';
-                                    if (res == 'Nice try'){
-                                            scr.textContent = 'Nice try';
-                                            ops.forEach((item)=> {item.style.backgroundColor = 'red';} );
-                                            clearButton.style.backgroundColor = '#00ff00';
-                                            needsClear = true;
-                                        }
-                                }
-                            // function operInput ends
-                            }
-                        } 
+                    registerNumber();
+                    if(btn.textContent == 'Clear'){
+                        clearScreen(btn);
                     }
-                    
-                    
-                    
+                    if (!needsClear){
+                        operInput(btn);
+                    }
+                } 
+                
+                if ((needsClear && btn.textContent != 'Clear')){
+                    errorState(btn)
+                }
+                       
             }
         )});
         
