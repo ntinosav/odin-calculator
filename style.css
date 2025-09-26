@@ -2,18 +2,62 @@ body {
     text-align: center;
     display: flex;
     justify-content: center;
+    align-items: flex-end;
+    gap : 20px;
     padding-top: 200px;
+    background-color: rgb(44, 45, 46);
+}
+
+#brand-area {
+    height: 30px;
+    border: 1px solid rgb(8, 8, 8);
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin-bottom: 5px;
+}
+
+#solar {
+    width : 50px;
+    height : 20px;
+    background-color: rgb(43, 5, 33);
+}
+
+h1 {
+    color: aliceblue;
+}
+
+p{
+    color: aliceblue;
+}
+
+#brand-area p {
+    font-size: 20px;
+    font-family: 'Times New Roman', Times, serif;
+    letter-spacing: 1px;
+    color: rgb(255, 255, 255);
 }
 
 .row {
+    
     display: flex;
+    gap: 4px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+#calc {
+    border: 5px solid black ;
+    border-radius: 10px;
+    padding: 20px 20px;
+    background-color: rgb(50, 50, 75);
 }
 
 #screen {
     padding-top: 20px;
-    background-color: black;
-    color: green;
-    width: 206px;
+    background-color: rgb(241, 255, 215);
+    color: rgb(9, 12, 9);
+    width: 212px;
     height: 50px;
     border: 1px solid black;
     border-radius: 10px;
@@ -22,13 +66,15 @@ body {
 }
 
 .button {
+    box-sizing: border-box;
     text-align: center;
     border-radius: 10px;
     width: 50px;
     height: 50px;
     border: 1px solid black;
     font-size: larger;
-    padding-top: auto;
+    background-color: white;
+    padding-top: 12px;
 }
 
 .button:hover {

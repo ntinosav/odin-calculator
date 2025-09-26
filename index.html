@@ -8,11 +8,19 @@
 </head>
 <body>
 
+<div>
+<h1> Calculator </h1>
+<p>(with keyboard support)</p>
 
-
+</div>
 
 
 <div id="calc">
+
+    <div id="brand-area">
+        <div id="solar"></div>
+        <p>Casio</p>
+    </div>
     <div id="screen">Numbers</div>
     <div class="row">
         <div class="button">7</div>
@@ -113,9 +121,9 @@
             if (pos != -1) {
                 if (num_str.includes('e')){
                     let exp = num_str.slice(-2,);
-                    console.log(exp);
+                    
                     num_str = num_str.slice(0,7);
-                    console.log(`Huge Number : ${num_str}`);
+                    
                     num = parseFloat(num_str);
                     pow = ((13 - 1) - pos) - 1;
                     num = (num*Math.pow(10,pow));
@@ -130,16 +138,10 @@
                 num = Math.round(num)/10**pow;
             }else{
                 num = parseInt(num_str);
-                console.log(`Before : ${num}`);
                 num = Math.floor(num/10**((num_str.length - 13)+1));
-                console.log(`After : ${num}`);
-                // let rem = num % 10;
                 num = Math.round(num);
                 num_str = String(num);
-                // num = Math.floor(num/10);
-                // if (rem >= 5){
-                //     num++;
-                // }
+
             }
             return String(num);
         }
@@ -169,7 +171,7 @@
                 }
             }else{
                 if (temp2 != ''){
-                    // temp2 = String(num2);
+                    
                     if (temp2.length > 1) {
                         temp2 = temp2.slice(0,-1);
                     }
@@ -181,7 +183,6 @@
                        
                     if (temp1.length > 1) {
                         temp1 = temp1.slice(0,-1);
-                        console.log(temp1);
                     }
                     scr.textContent = temp1;
                 }
@@ -215,7 +216,7 @@
                 }
             }else{
                 if (temp2 != ''){
-                    // temp2 = String(num2);
+                    
                     if (temp2.length > 1) {
                         temp2 = temp2.slice(0,-1);
                     }
@@ -227,7 +228,6 @@
                        
                     if (temp1.length > 1) {
                         temp1 = temp1.slice(0,-1);
-                        console.log(temp1);
                     }
                     scr.textContent = temp1;
                 }
@@ -265,21 +265,17 @@
                 }
 
                 ops.forEach((item)=> {item.style.backgroundColor = 'bisque';} );
-               // btn.style.backgroundColor = 'red';
+             
             
             }else if (oper == undefined){
                 prev_equal = false;
-                
                 if (ev.key != 'c'){
                     prev_oper = true;
                     oper = ev.key;
                 }
-                console.log("Operation :" + oper);
                 ops.forEach((item)=> {item.style.backgroundColor = 'bisque';} );
-                //btn.style.backgroundColor = 'red';
             } else if (prev_oper){
                 needsClear = true;
-                console.log("Fuck");
             
             }else{
                 prev_equal = false;
@@ -291,7 +287,7 @@
                 oper = ev.key;
                 prev_oper = true;
                 ops.forEach((item)=> {item.style.backgroundColor = 'bisque';} );
-                //btn.style.backgroundColor = 'red';
+                
                 if (res == 'Nice try'){
                         scr.textContent = 'Nice try';
                         ops.forEach((item)=> {item.style.backgroundColor = 'red';} );
@@ -329,18 +325,14 @@
                 }else{
                     needsClear = true;
                 }
-
                 ops.forEach((item)=> {item.style.backgroundColor = 'bisque';} );
                 btn.style.backgroundColor = 'red';
-            
             }else if (oper == undefined){
                 prev_equal = false;
-                
                 if (btn.textContent != 'Clear'){
                     prev_oper = true;
                     oper = btn.textContent;
                 }
-                console.log("Operation :" + oper);
                 ops.forEach((item)=> {item.style.backgroundColor = 'bisque';} );
                 btn.style.backgroundColor = 'red';
             } else if (prev_oper){
@@ -378,7 +370,7 @@
             prev_oper = false;
             scr.textContent = 0;
             ops.forEach((item)=> {item.style.backgroundColor = 'bisque';} );
-            //btn.style.backgroundColor = 'white';
+            clearButton.style.backgroundColor = "white";
             needsClear = false;
         }
 
@@ -401,7 +393,7 @@
 
 
         function errorState(){
-            scr.textContent = 'Error. Press Clear';
+            scr.textContent = 'Error';
             ops.forEach((item)=> {item.style.backgroundColor = 'red';} );
             clearButton.style.backgroundColor = '#00ff00';
             needsClear = true;
@@ -422,7 +414,6 @@
                         operKeyInput(event);
                     }
                 } 
-                
                 if ((needsClear && event.key != 'c')){
                     errorState();
                 }
@@ -440,18 +431,15 @@
                 if ((! isNaN(btn.textContent) || btn.textContent == '.' || btn.textContent == 'Backspace') && needsClear==false){
                     numInput(btn);
                 }else{
-                    
                     registerNumber();
                     if(btn.textContent == 'Clear'){
                         clearScreen(btn);
-                    }
-                    if (!needsClear){
+                    }else if (!needsClear){
                         operInput(btn);
                     }
                 } 
-                
                 if ((needsClear && btn.textContent != 'Clear')){
-                    errorState(btn)
+                    errorState(btn);
                 }
                        
             }
